@@ -1,0 +1,98 @@
+{
+  "scan_timestamp": "2026-04-29T13:16:33.827722",
+  "model": "qwen2.5-coder:0.5b",
+  "repo": "/Users/pallampa/Desktop/AI-DevOps/sample-python-repo",
+  "files_scanned": 3,
+  "results": [
+    {
+      "file": "app.py",
+      "issues": [
+        {
+          "id": "SAST-001",
+          "severity": "CRITICAL|HIGH|MEDIUM|LOW|INFO",
+          "category": "SQL Injection",
+          "line_range": "28-34",
+          "description": "Insecure SQL query using parameterized queries.",
+          "recommendation": "Use parameterized queries to prevent SQL injection attacks.",
+          "code": "cursor.execute(f'SELECT * FROM users WHERE username = ? AND password = ?', (username, password))"
+        },
+        {
+          "id": "SAST-002",
+          "severity": "CRITICAL|HIGH|MEDIUM|LOW|INFO",
+          "category": "Hardcoded Secret",
+          "line_range": "17-23",
+          "description": "Insecure password handling using plain text passwords.",
+          "recommendation": "Use environment variables or secure vaults for storing passwords.",
+          "code": "SECRET_KEY = 'hardcoded-super-secret-key-12345'"
+        },
+        {
+          "id": "SAST-003",
+          "severity": "CRITICAL|HIGH|MEDIUM|LOW|INFO",
+          "category": "Insecure Deserialization",
+          "line_range": "37-46",
+          "description": "Insecure deserialization using pickle from user input.",
+          "recommendation": "Use secure serialization methods like JSON or YAML.",
+          "code": "return pickle.loads(data.encode())  # RCE vulnerability"
+        },
+        {
+          "id": "SAST-004",
+          "severity": "CRITICAL|HIGH|MEDIUM|LOW|INFO",
+          "category": "Bare except Clause",
+          "line_range": "67-75",
+          "description": "Bare except clause hiding all errors.",
+          "recommendation": "Implement proper error handling and logging to prevent unexpected behavior.",
+          "code": "pass"
+        }
+      ],
+      "summary": {
+        "total_issues": 10,
+        "critical": 3,
+        "high": 2,
+        "medium": 1,
+        "low": 1
+      }
+    },
+    {
+      "file": "database/db_handler.py",
+      "issues": [
+        {
+          "id": "SAST-PARSE-ERR",
+          "severity": "INFO",
+          "category": "Parse Error",
+          "line_range": "N/A",
+          "description": "LLM response could not be parsed as JSON.",
+          "recommendation": "Review raw output in sast_report.json under raw_responses.",
+          "_raw": "```json\n{\n  \"file\": \"database/db_handler.py\",\n  \"issues\": [\n    {\n      \"id\": \"SAST-001\",\n      \"severity\": \"CRITICAL|HIGH|MEDIUM|LOW|INFO\",\n      \"category\": \"SQL Injection\",\n      \"line_range\": \"23\",\n      \"description\": \"Direct string formatting in SQL query, which is vulnerable to injection.\",\n      \"recommendation\": \"Use parameterized queries or prepared statements to prevent SQL injection.\",\n      \"code\": \"result = execute_query(f'SELECT * FROM users WHERE id = {user_id}')\"\n    },\n    {\n  "
+        }
+      ],
+      "summary": {
+        "total_issues": 0,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "file": "utils/auth.py",
+      "issues": [
+        {
+          "id": "SAST-PARSE-ERR",
+          "severity": "INFO",
+          "category": "Parse Error",
+          "line_range": "N/A",
+          "description": "LLM response could not be parsed as JSON.",
+          "recommendation": "Review raw output in sast_report.json under raw_responses.",
+          "_raw": "```json\n{\n  \"file\": \"utils/auth.py\",\n  \"issues\": [\n    {\n      \"id\": \"SAST-001\",\n      \"severity\": \"CRITICAL|HIGH|MEDIUM|LOW|INFO\",\n      \"category\": \"SQL Injection\",\n      \"line_range\": \"25-30\",\n      \"description\": \"The `generate_token` function uses simple base64 encoding, which is not secure.\",\n      \"recommendation\": \"Use a more secure method to encode and decode tokens, such as using a hashing algorithm like bcrypt or Argon2.\",\n      \"code\": \"base64.b64encode(f'{user_id}:{int(time.time())}"
+        }
+      ],
+      "summary": {
+        "total_issues": 0,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    }
+  ]
+}
